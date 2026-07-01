@@ -11,7 +11,10 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <!-- Navigation Links -->
+@php
+    $projectName = basename(base_path());
+@endphp
+
 <div class="hidden sm:-my-px sm:ms-10 sm:flex sm:items-center sm:space-x-6">
 
     <x-nav-link
@@ -107,6 +110,7 @@
             </div>
         </div>
     </div>
+    
 
     <div
         x-data="{ openProducts: false }"
@@ -163,6 +167,7 @@
 
 </div>
 
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -197,6 +202,8 @@
                 </x-dropdown>
             </div>
 
+            
+
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -206,6 +213,16 @@
                     </svg>
                 </button>
             </div>
+
+
+        </div>
+         <div class="hidden sm:flex sm:items-center mr-6">
+            <span class="text-xs text-gray-500">
+                Projekt:
+                <span class="font-semibold text-gray-700">
+                    {{ $projectName }}
+                </span>
+            </span>
         </div>
     </div>
 
