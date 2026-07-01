@@ -11,64 +11,157 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    @can('admin-access')
-                    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
-                        {{ __('Korisnici') }}
-                    </x-nav-link>
-                    @endcan
-                    @can('admin-access')
-                        <x-nav-link
-                            :href="route('admin.users.indexPaginated')"
-                            :active="request()->routeIs('admin.users.indexPaginated')"
-                        >
-                            Korisnici paginacija
-                        </x-nav-link>
-                    @endcan
-                    <x-nav-link
-                        :href="route('categories.index')"
-                        :active="request()->routeIs('categories.*')"
+                <!-- Navigation Links -->
+<div class="hidden sm:-my-px sm:ms-10 sm:flex sm:items-center sm:space-x-6">
+
+    <x-nav-link
+        :href="route('dashboard')"
+        :active="request()->routeIs('dashboard')"
+    >
+        {{ __('Dashboard') }}
+    </x-nav-link>
+
+    @can('admin-access')
+        <div
+            x-data="{ openUsers: false }"
+            class="relative"
+        >
+            <button
+                type="button"
+                @click="openUsers = ! openUsers"
+                @click.away="openUsers = false"
+                class="inline-flex items-center px-1 pt-1 text-xs font-medium leading-5 text-gray-500 hover:text-gray-700 focus:outline-none transition"
+            >
+                Korisnici
+
+                <i class="bi bi-chevron-down ms-1 text-[10px]"></i>
+            </button>
+
+            <div
+                x-show="openUsers"
+                x-transition
+                class="absolute z-50 mt-2 w-56 rounded-md bg-white shadow-lg border border-gray-100"
+                style="display: none;"
+            >
+                <div class="py-1">
+                    <a
+                        href="{{ route('admin.users.index') }}"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                        Kategorije
-                    </x-nav-link>
-                    <x-nav-link :href="route('categories.summary')" :active="request()->routeIs('categories.summary')">
-                        Statistika kategorija
-                    </x-nav-link>
-                    <x-nav-link
-                        :href="route('products.index')"
-                        :active="request()->routeIs('products.*')"
+                        Popis korisnika
+                    </a>
+
+                    <a
+                        href="{{ route('admin.users.indexPaginated') }}"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                        Proizvodi
-                    </x-nav-link>
-                    <x-nav-link
-                        :href="route('products.search')"
-                        :active="request()->routeIs('products.search')"
-                    >
-                        Pretraga proizvoda
-                    </x-nav-link>
-                    <x-nav-link
-                        :href="route('dummy-products.index')"
-                        :active="request()->routeIs('dummy-products.*')"
-                    >
-                        Dummy proizvodi
-                    </x-nav-link>
-                    <x-nav-link
-                        :href="route('products.db')"
-                        :active="request()->routeIs('products.db')"
-                    >
-                        Proizvodi db
-                    </x-nav-link>
-                    <x-nav-link
-                        :href="route('categories.db')"
-                        :active="request()->routeIs('categories.db')"
-                    >
-                        Kategorije db
-                    </x-nav-link>
+                        Korisnici paginacija
+                    </a>
                 </div>
             </div>
+        </div>
+    @endcan
+
+    <div
+        x-data="{ openCategories: false }"
+        class="relative"
+    >
+        <button
+            type="button"
+            @click="openCategories = ! openCategories"
+            @click.away="openCategories = false"
+            class="inline-flex items-center px-1 pt-1 text-xs font-medium leading-5 text-gray-500 hover:text-gray-700 focus:outline-none transition"
+        >
+            Kategorije
+
+            <i class="bi bi-chevron-down ms-1 text-[10px]"></i>
+        </button>
+
+        <div
+            x-show="openCategories"
+            x-transition
+            class="absolute z-50 mt-2 w-60 rounded-md bg-white shadow-lg border border-gray-100"
+            style="display: none;"
+        >
+            <div class="py-1">
+                <a
+                    href="{{ route('categories.index') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Popis kategorija
+                </a>
+
+                <a
+                    href="{{ route('categories.summary') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Statistika kategorija
+                </a>
+
+                <a
+                    href="{{ route('categories.db') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Kategorije DB
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div
+        x-data="{ openProducts: false }"
+        class="relative"
+    >
+        <button
+            type="button"
+            @click="openProducts = ! openProducts"
+            @click.away="openProducts = false"
+            class="inline-flex items-center px-1 pt-1 text-xs font-medium leading-5 text-gray-500 hover:text-gray-700 focus:outline-none transition"
+        >
+            Proizvodi
+
+            <i class="bi bi-chevron-down ms-1 text-[10px]"></i>
+        </button>
+
+        <div
+            x-show="openProducts"
+            x-transition
+            class="absolute z-50 mt-2 w-60 rounded-md bg-white shadow-lg border border-gray-100"
+            style="display: none;"
+        >
+            <div class="py-1">
+                <a
+                    href="{{ route('products.index') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Popis proizvoda
+                </a>
+
+                <a
+                    href="{{ route('products.search') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Pretraga proizvoda
+                </a>
+
+                <a
+                    href="{{ route('dummy-products.index') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Dummy proizvodi
+                </a>
+
+                <a
+                    href="{{ route('products.db') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    Proizvodi DB
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
