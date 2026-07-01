@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.error-container {
+
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+
+}
+
+.error-box {
+
+    background: #fff0f0;
+    border: 2px solid #ffb3b3;
+    border-radius: 8px;
+    padding: 25px;
+
+}
+
+.error-title {
+
+    color: #cc0000;
+    font-size: 24px;
+    margin-bottom: 15px;
+
+}
+
+.error-text {
+
+    margin-bottom: 20px;
+    line-height: 1.6;
+
+}
+
+.admin-table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.admin-table thead {
+    background-color: #f3f4f6;
+}
+
+.admin-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 700;
+    color: #374151;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.admin-table td {
+    padding: 12px;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.badge-admin {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background-color: #dcfce7;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-user {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background-color: #e5e7eb;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 6px;
+
+    transition: 0.2s;
+}
+
+.icon-edit {
+    color: #2563eb;
+}
+
+.icon-edit:hover {
+    background: #dbeafe;
+}
+
+.icon-delete {
+    color: #dc2626;
+}
+
+.icon-delete:hover {
+    background: #fee2e2;
+}
+
+.menufont{
+    font-size: 10px !important;
+}
