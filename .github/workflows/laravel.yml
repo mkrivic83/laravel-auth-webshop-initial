@@ -2,8 +2,10 @@ name: Laravel CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
 
 jobs:
   laravel-tests:
@@ -19,27 +21,41 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, sqlite3, pdo_sqlite
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
       - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install NPM dependencies
+        run: npm install
 
       - name: Copy .env
         run: cp .env.example .env
 
-      - name: Generate APP_KEY
+      - name: Generate application key
         run: php artisan key:generate
 
-      - name: Create SQLite database
-        run: touch database/database.sqlite
+      - name: Build Vite assets
+        run: npm run build
 
-      - name: Run migrations
+      - name: Check code formatting
+        run: php artisan --version
+
+      - name: Run database migrations
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+          DB_DATABASE: ":memory:"
         run: php artisan migrate --force
 
-      - name: Run tests
+      - name: Run PHPUnit tests
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+          DB_DATABASE: ":memory:"
         run: php artisan test
