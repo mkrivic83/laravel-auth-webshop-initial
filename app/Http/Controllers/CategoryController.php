@@ -67,6 +67,7 @@ class CategoryController extends Controller
                 'required',
                 'string',
                 'max:255',
+                'min:3'
             ],
             'opis' => [
                 'nullable',
@@ -152,5 +153,18 @@ class CategoryController extends Controller
                 'success',
                 'Kategorija je uspješno obrisana.'
             );
+    }
+
+        public function productsSummary()
+    {
+        $categories = Category::withCount('products')
+            ->orderBy('naziv')
+            ->get();
+
+
+        return view(
+            'categories.products-summary',
+            compact('categories')
+        );
     }
 }

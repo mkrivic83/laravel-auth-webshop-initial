@@ -30,6 +30,8 @@ class ProfileTest extends TestCase
             ->patch('/profile', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'datum_rod' => '1990-10-20',
+                'placa' => 1700,
             ]);
 
         $response
@@ -40,6 +42,8 @@ class ProfileTest extends TestCase
 
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
+        $this->assertEquals('1990-10-20', $user->datum_rod->format('Y-m-d'));
+        $this->assertEquals(1700, $user->placa);
         $this->assertNull($user->email_verified_at);
     }
 
@@ -52,6 +56,8 @@ class ProfileTest extends TestCase
             ->patch('/profile', [
                 'name' => 'Test User',
                 'email' => $user->email,
+                 'datum_rod' => '1990-10-20',
+                    'placa' => 1700,
             ]);
 
         $response

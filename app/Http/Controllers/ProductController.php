@@ -184,4 +184,16 @@ class ProductController extends Controller
             compact('products', 'search')
         );
     }
+
+    public function productsSummary()
+    {
+        $categories = Category::withCount('products')
+            ->orderBy('naziv')
+            ->get();
+
+        return view(
+            'categories.products-summary',
+            compact('categories')
+        );
+    }
 }

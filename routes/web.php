@@ -59,6 +59,11 @@ Route::delete('/admin/users/{user}',[UserController::class, 'destroy'])
     ->name('admin.users.destroy');
 
 //KATEGORIJE
+Route::get(
+    '/categories/products-summary',
+    [CategoryController::class, 'productsSummary']
+)->name('categories.productsSummary');
+
 
 Route::resource('categories', CategoryController::class)
     ->middleware('auth');
@@ -69,6 +74,9 @@ Route::get('categoriesDb', [CategoryController::class,'indexDb'])
 Route::get('categories-summary', [CategoryController::class,'summary'])
     ->middleware('auth')->name('categories.summary');
 //PROIZVODI
+
+
+
 Route::resource('products', ProductController::class)
     ->middleware('auth');
 
@@ -94,6 +102,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
+
 
 require __DIR__.'/auth.php';

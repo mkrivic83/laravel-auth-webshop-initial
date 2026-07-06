@@ -206,4 +206,97 @@ class ProductTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Lenovo ThinkPad');
     }
+
+    public function test_vraca_ispravan_broj_proizvoda_po_kategoriji(): void
+{
+    // -------------------------------------------------
+    // Arrange (Priprema podataka)
+    // -------------------------------------------------
+
+    $admin = $this->admin();
+
+    $laptopi = Category::create([
+    'naziv' => 'Laptopi',
+    'opis' => 'Laptop računala',
+    ]);
+
+    $televizori = Category::create([
+        'naziv' => 'Televizori',
+        'opis' => 'Smart TV',
+    ]);
+
+    for ($i = 1; $i <= 3; $i++) {
+
+    Product::create([
+
+        'naziv' => 'Laptop ' . $i,
+
+        'opis' => 'Opis',
+
+        'cijena' => 1000,
+
+        'kolicina' => 5,
+
+        'category_id' => $laptopi->id,
+
+        'izvor' => 'custom',
+
+    ]);
+
+}
+
+for ($i = 1; $i <= 2; $i++) {
+
+    Product::create([
+
+        'naziv' => 'TV ' . $i,
+
+        'opis' => 'Opis',
+
+        'cijena' => 1500,
+
+        'kolicina' => 3,
+
+        'category_id' => $televizori->id,
+
+        'izvor' => 'custom',
+
+    ]);
+
+}
+
+    // -------------------------------------------------
+    // Act (Izvršavanje akcije)
+    // -------------------------------------------------
+
+    $response = $this
+        ->actingAs($admin)
+        ->get(route('categories.productsSummary'));
+
+//     dd(
+//     $response->status(),
+//     $response->content(),
+//     $response->exception
+// );
+
+    // -------------------------------------------------
+    // Assert (Provjera rezultata)
+    // -------------------------------------------------
+
+    $response->assertOk();
+
+    $response->assertViewHas('categories');
+
+    $categories = $response->viewData('categories');
+
+    $this->assertEquals(
+        3,
+        $categories->firstWhere('naziv', 'Laptopi')->products_count
+    );
+
+    $this->assertEquals(
+        2,
+        $categories->firstWhere('naziv', 'Televizori')->products_count
+    );
+}
 }

@@ -126,4 +126,207 @@ class CategoryTest extends TestCase
             'naziv' => 'Zabranjena kategorija',
         ]);
     }
+
+    public function test_validacija_ne_dozvoljava_prazan_naziv_kategorije(): void
+    {
+        // -------------------------------------------------
+        // Arrange (Priprema podataka)
+        // -------------------------------------------------
+
+        $admin = $this->admin();
+
+        // -------------------------------------------------
+        // Act (Izvršavanje akcije)
+        // -------------------------------------------------
+
+        $response = $this
+            ->from(route('categories.create'))
+            ->actingAs($admin)
+            ->post(route('categories.store'), [
+
+                'naziv' => '',
+
+                'opis' => 'Opis nove kategorije',
+
+            ]);
+
+        // -------------------------------------------------
+        // Assert (Provjera rezultata)
+        // -------------------------------------------------
+
+        $response->assertRedirect(
+            route('categories.create')
+        );
+
+        $response->assertSessionHasErrors([
+            'naziv'
+        ]);
+
+        $this->assertDatabaseMissing('categories', [
+
+            'opis' => 'Opis nove kategorije',
+
+        ]);
+    }
+
+    public function test_validacija_minimalne_duljine_naziva(): void
+    {
+        // -------------------------------------------------
+        // Arrange (Priprema podataka)
+        // -------------------------------------------------
+
+        $admin = $this->admin();
+
+        // -------------------------------------------------
+        // Act (Izvršavanje akcije)
+        // -------------------------------------------------
+
+        $response = $this
+            ->from(route('categories.create'))
+            ->actingAs($admin)
+            ->post(route('categories.store'), [
+
+                'naziv' => 'TV',
+
+                'opis' => 'Opis kategorije',
+
+            ]);
+
+        // -------------------------------------------------
+        // Assert (Provjera rezultata)
+        // -------------------------------------------------
+
+        $response->assertRedirect(
+            route('categories.create')
+        );
+
+        $response->assertSessionHasErrors([
+            'naziv'
+        ]);
+
+        $this->assertDatabaseMissing('categories', [
+
+            'naziv' => 'TV',
+
+        ]);
+    }
+
+    // public function test_validacija_ne_dozvoljava_prazan_opis(): void
+    // {
+    //     // -------------------------------------------------
+    //     // Arrange (Priprema podataka)
+    //     // -------------------------------------------------
+
+    //     $admin = $this->admin();
+
+    //     // -------------------------------------------------
+    //     // Act (Izvršavanje akcije)
+    //     // -------------------------------------------------
+
+    //     $response = $this
+    //         ->from(route('categories.create'))
+    //         ->actingAs($admin)
+    //         ->post(route('categories.store'), [
+
+    //             'naziv' => 'Laptopi',
+
+    //             'opis' => '',
+
+    //         ]);
+
+    //     // -------------------------------------------------
+    //     // Assert (Provjera rezultata)
+    //     // -------------------------------------------------
+
+    //     $response->assertRedirect(
+    //         route('categories.create')
+    //     );
+
+    //     $response->assertSessionHasErrors([
+    //         'opis'
+    //     ]);
+
+    //     $this->assertDatabaseMissing('categories', [
+
+    //         'naziv' => 'Laptopi',
+
+    //     ]);
+    // }
+
+    
+
+    public function test_opis_kategorije_nije_obavezan(): void
+    {
+        // -------------------------------------------------
+        // Arrange (Priprema podataka)
+        // -------------------------------------------------
+
+        $admin = $this->admin();
+
+        // -------------------------------------------------
+        // Act (Izvršavanje akcije)
+        // -------------------------------------------------
+
+        $response = $this
+            ->actingAs($admin)
+            ->post(route('categories.store'), [
+
+                'naziv' => 'Laptopi',
+
+                'opis' => '',
+
+            ]);
+
+        // -------------------------------------------------
+        // Assert (Provjera rezultata)
+        // -------------------------------------------------
+
+        $response->assertRedirect(
+            route('categories.index')
+        );
+
+        $this->assertDatabaseHas('categories', [
+
+            'naziv' => 'Laptopi',
+
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+    }
+
+    // public function test_nakon_spremanja_kategorije_prikazuje_se_success_poruka(): void
+    // {
+    //     // -------------------------------------------------
+    //     // Arrange (Priprema podataka)
+    //     // -------------------------------------------------
+
+    //     $admin = $this->admin();
+
+    //     // -------------------------------------------------
+    //     // Act (Izvršavanje akcije)
+    //     // -------------------------------------------------
+
+    //     $response = $this
+    //         ->actingAs($admin)
+    //         ->post(route('categories.store'), [
+
+    //             'naziv' => 'Mobiteli',
+
+    //             'opis' => 'Pametni telefoni',
+
+    //         ]);
+
+    //     // -------------------------------------------------
+    //     // Assert (Provjera rezultata)
+    //     // -------------------------------------------------
+
+    //     $response->assertRedirect(
+    //         route('categories.index')
+    //     );
+
+    //     $response->assertSessionHas(
+    //         'success',
+    //         'Proizvod je uspješno dodan.'
+    //     );
+    // }
 }
