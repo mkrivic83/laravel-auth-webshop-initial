@@ -28,7 +28,8 @@ class RegistrationTest extends TestCase
             'placa' => '1500',
         ]);
 
-        $this->assertAuthenticated();
+        //$this->assertAuthenticated();
+        $this->assertFalse(true);
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 }

@@ -33,5 +33,21 @@
                 {{ $slot }}
             </main>
         </div>
+        <footer class="mt-5 py-4 border-t bg-gray-100 dark:bg-gray-900">
+            <div class="text-center text-sm text-gray-600 dark:text-gray-300">
+                <strong>Environment:</strong>
+                <span class="font-mono">{{ app()->environment() }}</span>
+
+                &nbsp;|&nbsp;
+
+                <strong>Laravel:</strong>
+                <span class="font-mono">{{ app()->version() }}</span>
+
+                &nbsp;|&nbsp;
+
+                <strong>PHP:</strong>
+                <span class="font-mono">{{ PHP_VERSION }}</span>
+            </div>
+        </footer>
     </body>
 </html>
